@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+            border: 3px solid #007bff; /* Increased border size */
+            position: relative;
+            overflow: hidden;
+            margin: 2rem; /* Increased margin */
+        }
+        .glitter {
+            position: relative;
+            display: inline-block;
+            font-size: 2rem;
+            color: #007bff;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ffff00);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glitter 3s linear infinite;
+        }
+        @keyframes glitter {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: #333;
+            color: #fff;
+            z-index: 1;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        input[type="number"] {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 1rem;
+            width: 120px;
+        }
+        select, input[type="radio"] {
+            margin-right: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 1;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="glitter">Temperature Converter</h1>
+        <input type="number" id="temperature" placeholder="Enter temperature">
+        <div>
+            <label>
+                <input type="radio" name="unit" value="Celsius" checked>
+                Celsius
+            </label>
+            <label>
+                <input type="radio" name="unit" value="Fahrenheit">
+                Fahrenheit
+            </label>
+            <label>
+                <input type="radio" name="unit" value="Kelvin">
+                Kelvin
+            </label>
+        </div>
+        <button onclick="convertTemperature()">Convert</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function convertTemperature() {
+            const tempInput = document.getElementById('temperature').value;
+            const unit = document.querySelector('input[name="unit"]:checked').value;
+            const resultDiv = document.getElementById('result');
+            
+            // Validate input
+            if (isNaN(tempInput) || tempInput === '') {
+                resultDiv.innerHTML = 'Please enter a valid number.';
+                return;
+            }
+
+            let temp = parseFloat(tempInput);
+            let result = '';
+
+            switch (unit) {
+                case 'Celsius':
+                    result = `Fahrenheit: ${(temp * 9/5 + 32).toFixed(2)}°F<br>Kelvin: ${(temp + 273.15).toFixed(2)}K`;
+                    break;
+                case 'Fahrenheit':
+                    result = `Celsius: ${((temp - 32) * 5/9).toFixed(2)}°C<br>Kelvin: ${(((temp - 32) * 5/9) + 273.15).toFixed(2)}K`;
+                    break;
+                case 'Kelvin':
+                    result = `Celsius: ${(temp - 273.15).toFixed(2)}°C<br>Fahrenheit: ${((temp - 273.15) * 9/5 + 32).toFixed(2)}°F`;
+                    break;
+                default:
+                    resultDiv.innerHTML = 'Invalid unit selected.';
+                    return;
+            }
+
+            resultDiv.innerHTML = result;
+        }
+    </script>
+
+</body>
+</html>
